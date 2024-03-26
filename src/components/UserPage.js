@@ -43,7 +43,7 @@ const Userpage = () => {
         </div>
       </div>
       <div className="text-center" style={{ paddingTop: '2%' }}>
-        <img src={debatemainImage1} className="img-fluid" alt='' style={{ maxWidth: '50%', maxHeight: '50%', position: 'absolute', left: '50%', top: '60%', transform: 'translate(-50%, -50%)', zIndex: '-1' }} />
+        <img src={debatemainImage1} className="img-fluid" alt='' style={{ maxWidth: '50%', maxHeight: '50%', borderRadius: '10px' }} />
       </div>
     </div>
   );

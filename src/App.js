@@ -1,5 +1,3 @@
-// App.js
-
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from './components/Homepage'; 
@@ -33,6 +31,16 @@ const App = () => {
         <Route path="/addtopic" element={<AddDebateTopic/>} />
         <Route path="/chatroom" element={<ChatRoomPage/>} />
         <Route path="/chatbox" element={<ChatBox/>} />
+        <Route path="/chatbox/:token" element={<ChatBox/>} />
+        
+<Link
+  to={`/chat/${token}`}
+  state={{ team1: 'Team A', team2: 'Team B', topic: 'Discussion Topic' }}
+>
+  Go to ChatBox
+</Link>
+
+
       </Routes>
     </BrowserRouter>
   );

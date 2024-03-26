@@ -23,25 +23,22 @@ const Homepage = () => {
               <li className="nav-item">
                 <a className="nav-link" href="/about">About</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/team">Team</a>
-              </li>
             </ul>
-                <div className="dropdown">
-                  <button className="btn btn-outline-dark me-md-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <AiOutlineUser size={38} style={{ marginRight: '12px' }} />
-                  </button>
-                  <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                    <li><a className="dropdown-item" href="/register">Register</a></li>
-                    <li><a className="dropdown-item" href="/login">Login</a></li>
-                  </ul>
-                </div>
+            <div className="dropdown">
+              <button className="btn btn-outline-dark me-md-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <AiOutlineUser size={38} style={{ marginRight: '12px' }} />
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li><a className="dropdown-item" href="/register">Register</a></li>
+                <li><a className="dropdown-item" href="/login">Login</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>
-      <div className="container mt-4 text-center" style={{ paddingTop: '1.2%' }}>
-        <h1 style={{ fontFamily: 'Inter', fontSize: 38, fontWeight: 'bold' }}>IGNITE YOUR VOICE</h1>
-        <h4 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 'normal', color: '#828282' }}>Empowering Dynamic Discourse for a Connected World</h4>
+      <div className="container mt-4 text-center" >
+        <h1 style={{ fontFamily: 'Inter', fontSize: 38, fontWeight: 'bold', marginTop: '2rem' }}>IGNITE YOUR VOICE</h1>
+        <h4 style={{ fontFamily: 'Inter', fontSize: 24, fontWeight: 'normal', color: '#828282', marginBottom: '2rem' }}>Empowering Dynamic Discourse for a Connected World</h4>
         <div className="btn-group mt-3 mx-3">
           <button className="btn btn-outline-dark me" onClick={() => window.location.href = '/rules'}>Rules & Regs</button>
         </div>
@@ -49,8 +46,8 @@ const Homepage = () => {
           <button type="button" className="btn btn-outline-dark " onClick={() => window.location.href = '/register'}>Create a Team</button>
         </div>
       </div>
-      <div className="text-center" style={{ paddingTop: '2%' }}>
-        <img src={debatemainImage1} className="img-fluid" alt='' style={{ maxWidth: '50%', maxHeight: '50%', position: 'absolute', left: '50%', top: '60%', transform: 'translate(-50%, -50%)', zIndex: '-1' }} />
+      <div className="text-center" style={{ paddingTop: '1.2%' }}>
+        <img src={debatemainImage1} className="img-fluid" alt='' style={{ maxWidth: '50%', maxHeight: '50%', borderRadius: '10px' }} />
       </div>
     </div>
   );

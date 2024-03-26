@@ -1,60 +1,61 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import adminpassport from './config/passport_config_admin.js';
-import connectDB from './config/db.mjs';
-import adminRouter from './routers/authRoutes.mjs';
-import teamRouter from './routers/teamRoutes.mjs';
-import createDebateRouter from './routers/debateTopicRoutes.mjs';
+import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
-import cors from 'cors';
+import connectDB from './config/db.mjs';
+import adminpassport from './config/passport_config_admin.js';
+import inviteRoutes from './routers/inviteRoutes.mjs';
+import teamRouter from './routers/teamRoutes.mjs';
+import adminRouter from './routers/authRoutes.mjs';
+import createDebateRouter from './routers/debateTopicRoutes.mjs';
 
 dotenv.config();
 
+// Initialize Express app
 const app = express();
 const server = http.createServer(app); // Create HTTP server
 const io = new Server(server, {
   cors: {
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
-    credentials: true
-  }
+    credentials: true,
+  },
 }); // Initialize Socket.IO with CORS configuration
 
-
-// server.js
-
-
-
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-
-// Inside the 'connection' event handler
-socket.on('chat message', (msg) => {
-  console.log('message: ' + msg);
-  io.emit('chat message', { user: socket.request.user, msg }); // Include user info
-});
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
-
+// Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
 }));
-
 app.use(adminpassport.initialize());
 
+// Routes
 app.use('/admins', adminRouter);
 app.use('/addteams', teamRouter);
 app.use('/addtopic', createDebateRouter);
+app.use('/invite', inviteRoutes);
 
+
+// Socket.IO
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  socket.on('chat message', (msg) => {
+    console.log('Message:', msg);
+    // Broadcast the message to all connected clients
+    io.emit('chat message', msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+// Connect to MongoDB
 connectDB();
 
 const PORT = process.env.PORT || 3333;

@@ -46,11 +46,11 @@ const AdminDashboard = () => {
     <a className="nav-link" href="/fixmatch" style={{ paddingRight: '18px' }}>Fix Match</a>
   </li>
   <li className="nav-item">
-    <a className="nav-link" href="/chatroom" style={{ paddingRight: '18px' }}>ChatRoom</a>
-  </li>
-  <li className="nav-item">
-    <a className="nav-link btn btn-danger" href="/" style={{ paddingRight: '18px' }}>Logout</a>
-  </li>
+  <a className="nav-link btn btn-primary" href="/" style={{ paddingRight: '18px', color: '#000' }}>Logout</a>
+</li>
+
+
+
 </ul>
 
 

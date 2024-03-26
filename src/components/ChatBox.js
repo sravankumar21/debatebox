@@ -1,36 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import { useParams } from 'react-router-dom';
 
-const ChatBox = ({ chatroomId, team1, team2, topic }) => {
+const ChatBox = () => {
+  const { token } = useParams();
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
+  // eslint-disable-next-line
+  const [team1, setTeam1] = useState('');
+  // eslint-disable-next-line
+  const [team2, setTeam2] = useState('');
+  // eslint-disable-next-line
+  const [topic, setTopic] = useState('');
+  // const location = useLocation();
+  // const { state } = location || {};
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3333');
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3333/addteams/teams}`); // Adjust URL and endpoint as per your backend
+        if (response.ok) {
+          const data = await response.json();
+          setTeam1(data.team1);
+          setTeam2(data.team2);
+          setTopic(data.topic);
+        } else {
+          console.error('Failed to fetch team and topic details');
+        }
+      } catch (error) {
+        console.error('Error fetching team and topic details:', error);
+      }
+    };
+
+    fetchData();
+
+    const newSocket = io('http://localhost:3333'); // Connect to backend URL
     setSocket(newSocket);
 
-    return () => newSocket.close();
-  }, []);
+    return () => {
+      newSocket.close();
+    };
+  }, [token]);
 
   useEffect(() => {
     if (!socket) return;
-  
-    // Listen for incoming messages
-    socket.on('chat message', (message) => {
-      if (message.user && message.user.username) {
-        setMessages((prevMessages) => [...prevMessages, `${message.user.username}: ${message.msg}`]);
-      } else {
-        // Handle the case where the message object does not contain the expected user information
-        console.error('Received message without username:', message);
-      }
+
+    socket.on('connect', () => {
+      console.log('Connected to server');
+      socket.emit('joinRoom', token);
     });
-  
+
+    socket.on('chat message', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
     return () => {
       socket.off('chat message');
     };
-  }, [socket]);
-  
+  }, [socket, token]);
 
   const sendMessage = () => {
     if (!socket || !messageInput.trim()) return;
@@ -42,16 +70,22 @@ const ChatBox = ({ chatroomId, team1, team2, topic }) => {
     <div className="container mt-4">
       <div className="card">
         <div className="card-header">
-          <h2 className="text-center">{team1} vs {team2}</h2>
-          <h5 className="text-center">Topic: {topic}</h5>
+          {team1 && team2 && <h2 className="text-center">{team1} vs {team2}</h2>}
+          {topic && <h5 className="text-center">Topic: {topic}</h5>}
         </div>
         <div className="card-body message-container">
           {messages.map((msg, index) => (
-            <div key={index} className="message">{msg}</div>
+            <div key={index} className="message">{msg.content}</div>
           ))}
         </div>
         <div className="card-footer input-container">
-          <input type="text" value={messageInput} onChange={(e) => setMessageInput(e.target.value)} className="form-control message-input" placeholder="Type your message..." />
+          <input
+            type="text"
+            value={messageInput}
+            onChange={(e) => setMessageInput(e.target.value)}
+            className="form-control message-input"
+            placeholder="Type your message..."
+          />
           <button onClick={sendMessage} className="btn btn-primary send-btn">Send</button>
         </div>
       </div>

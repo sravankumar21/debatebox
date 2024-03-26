@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS file
 import axios from 'axios';
 
 const LoginPage = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -10,27 +12,34 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     try {
       const response = await axios.post('http://localhost:3333/admins/login', formData);
-      
+  
+      // Log response data for debugging
+      console.log('Response:', response.data);
+  
       // Assuming the server responds with a status code and role upon successful login
       if (response.status === 200) {
         const { role } = response.data;
-        if (role === 'user') {
-          window.location.href = '/userdashboard';
-        } else if (role === 'admin') {
-          window.location.href = '/admindashboard';
+        console.log('Role:', role);
+  
+        if (role.role === 'user') { // Access the 'role' property of the 'role' object
+          console.log('Redirecting to user dashboard...');
+          navigate('/userdashboard'); // Redirect to userdashboard
+        } else if (role.role === 'admin') { // Access the 'role' property of the 'role' object
+          console.log('Redirecting to admin dashboard...');
+          navigate('/admindashboard'); // Redirect to admindashboard
+        } else {
+          console.log('Unknown role:', role.role); // Access the 'role' property of the 'role' object
         }
-      } else {
-        // Handle unsuccessful login (e.g., display error message to user)
-        console.error('Login Error:', response.data.error);
       }
     } catch (error) {
       console.error('Login Error:', error);
-      // Handle login error (e.g., display error message to user)
+      // Handle login error
     }
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
