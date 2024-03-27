@@ -33,13 +33,6 @@ const App = () => {
         <Route path="/chatbox" element={<ChatBox/>} />
         <Route path="/chatbox/:token" element={<ChatBox/>} />
         
-<Link
-  to={`/chat/${token}`}
-  state={{ team1: 'Team A', team2: 'Team B', topic: 'Discussion Topic' }}
->
-  Go to ChatBox
-</Link>
-
 
       </Routes>
     </BrowserRouter>

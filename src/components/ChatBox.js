@@ -1,54 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const ChatBox = () => {
-  const { token } = useParams();
-  const [socket, setSocket] = useState(null);
+  const location = useLocation();
+  const { state } = location || {};
+  const { team1, team2, topic } = state || {};
+
+  const [socket, setSocket] = useState(null); // Added socket state
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState('');
-  // eslint-disable-next-line
-  const [team1, setTeam1] = useState('');
-  // eslint-disable-next-line
-  const [team2, setTeam2] = useState('');
-  // eslint-disable-next-line
-  const [topic, setTopic] = useState('');
-  // const location = useLocation();
-  // const { state } = location || {};
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`http://localhost:3333/addteams/teams}`); // Adjust URL and endpoint as per your backend
-        if (response.ok) {
-          const data = await response.json();
-          setTeam1(data.team1);
-          setTeam2(data.team2);
-          setTopic(data.topic);
-        } else {
-          console.error('Failed to fetch team and topic details');
-        }
-      } catch (error) {
-        console.error('Error fetching team and topic details:', error);
-      }
-    };
-
-    fetchData();
-
     const newSocket = io('http://localhost:3333'); // Connect to backend URL
     setSocket(newSocket);
 
     return () => {
       newSocket.close();
     };
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on('connect', () => {
       console.log('Connected to server');
-      socket.emit('joinRoom', token);
+      socket.emit('joinRoom', team1, team2); // Emit joinRoom with team names
     });
 
     socket.on('chat message', (message) => {
@@ -58,7 +35,7 @@ const ChatBox = () => {
     return () => {
       socket.off('chat message');
     };
-  }, [socket, token]);
+  }, [socket, team1, team2]);
 
   const sendMessage = () => {
     if (!socket || !messageInput.trim()) return;
@@ -74,8 +51,9 @@ const ChatBox = () => {
           {topic && <h5 className="text-center">Topic: {topic}</h5>}
         </div>
         <div className="card-body message-container">
-          {messages.map((msg, index) => (
-            <div key={index} className="message">{msg.content}</div>
+          {/* Display chat messages */}
+          {messages.map((message, index) => (
+            <div key={index} className="message">{message}</div>
           ))}
         </div>
         <div className="card-footer input-container">
