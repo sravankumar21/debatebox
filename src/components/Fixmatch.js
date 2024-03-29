@@ -8,7 +8,6 @@ const FixMatchPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Function to fetch all teams from the backend
     const fetchTeams = async () => {
       try {
         const response = await fetch('http://localhost:3333/addteams/teams');
@@ -23,9 +22,7 @@ const FixMatchPage = () => {
   }, []);
 
   useEffect(() => {
-    // Function to filter teams and find pairs with the same size and topic
     const filterTeams = () => {
-      // Group teams by size and topic
       const groupedTeams = {};
       teams.forEach((team) => {
         const key = `${team.participants.length}-${team.selectedTopic}`;
@@ -35,7 +32,6 @@ const FixMatchPage = () => {
         groupedTeams[key].push(team);
       });
 
-      // Find pairs with the same size and topic
       const pairs = [];
       Object.values(groupedTeams).forEach((group) => {
         if (group.length >= 2) {
@@ -53,13 +49,12 @@ const FixMatchPage = () => {
   }, [teams]);
 
   const handleFixMatch = (team1, team2) => {
-    // Navigate to the chatroom page and pass necessary props
     navigate('/chatroom', {
       state: {
         team1: team1.teamName,
         team2: team2.teamName,
-        topic: team1.selectedTopic, // Assuming both teams have the same selected topic
-        participants: [...team1.participants, ...team2.participants] // Merge participants of both teams
+        topic: team1.selectedTopic,
+        participants: [...team1.participants, ...team2.participants]
       }
     });
   };
@@ -74,8 +69,8 @@ const FixMatchPage = () => {
               <div className="card-body">
                 <h5 className="card-title">Match: {team1.teamName} vs {team2.teamName}</h5>
                 <ul className="list-group list-group-flush">
-                  <li className="list-group-item">{team1.teamName} , "Participants: {team1.participants.map(participant => participant.name).join(', ')}</li>
-                  <li className="list-group-item">{team2.teamName} , "Participants: {team2.participants.map(participant => participant.name).join(', ')}</li>
+                  <li className="list-group-item">Participants: {team1.participants.map(participant => participant.name).join(', ')}</li>
+                  <li className="list-group-item">Participants: {team2.participants.map(participant => participant.name).join(', ')}</li>
                 </ul>
                 <button className="btn btn-primary mt-3" onClick={() => handleFixMatch(team1, team2)}>Fix Match</button>
               </div>

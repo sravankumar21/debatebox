@@ -1,3 +1,4 @@
+// Import necessary modules
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -10,6 +11,7 @@ import inviteRoutes from './routers/inviteRoutes.mjs';
 import teamRouter from './routers/teamRoutes.mjs';
 import adminRouter from './routers/authRoutes.mjs';
 import createDebateRouter from './routers/debateTopicRoutes.mjs';
+import debateChatRouter from './routers/debateChatRoutes.mjs'; // Import debate chat routes
 
 dotenv.config();
 
@@ -38,7 +40,7 @@ app.use('/admins', adminRouter);
 app.use('/addteams', teamRouter);
 app.use('/addtopic', createDebateRouter);
 app.use('/invite', inviteRoutes);
-
+app.use('/create', debateChatRouter); // Use debate chat routes
 
 // Socket.IO
 io.on('connection', (socket) => {
@@ -59,4 +61,4 @@ io.on('connection', (socket) => {
 connectDB();
 
 const PORT = process.env.PORT || 3333;
-server.listen(PORT, () => console.log(`Server started on port: ${PORT}`));
+server.listen(PORT, () => console.log('Server started on port:', PORT)); // Log server start with port number

@@ -1,7 +1,7 @@
-// models/DebateChat.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const DebateChatSchema = new mongoose.Schema({
+  topic: { type: String, required: true }, // New field for topic
   team1: { type: String, required: true },
   team2: { type: String, required: true },
   participants: [String], // Array of participant names
@@ -14,4 +14,6 @@ const DebateChatSchema = new mongoose.Schema({
   ]
 });
 
-module.exports = mongoose.model('DebateChat', DebateChatSchema);
+const DebateChat = mongoose.model('DebateChat', DebateChatSchema);
+
+export default DebateChat;

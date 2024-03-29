@@ -9,43 +9,49 @@ const ChatRoomPage = () => {
   const { team1, team2, topic, participants } = state || {};
 
   // Function to handle inviting a participant
-  const handleInvite = async (email) => {
-    try {
-      // Generate chatbox link if not already generated
-      const token = Math.random().toString(36).substr(2, 10);
-      const generatedLink = `http://localhost:3000/chatbox/${token}`;
+const handleInvite = async (email) => {
+  try {
+    console.log('Inviting participant with email:', email); // Log invited participant's email
+    
+    // Generate chatbox link if not already generated
+    const token = Math.random().toString(36).substr(2, 10);
+    console.log('Generated unique ID:', token); // Log generated unique ID
+    const generatedLink = `http://localhost:3000/chatbox/${token}`;
 
-      // Send invitation email
-      const response = await fetch('http://localhost:3333/invite/invite', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, chatboxLink: generatedLink }),
-      });
+    // Send invitation email
+    const response = await fetch('http://localhost:3333/invite/invite', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, chatboxLink: generatedLink, team1, team2, topic, participants }), // Pass chat room details to the server
+    });
 
-      if (response.ok) {
-        // Update invited participants list if email sending successful
-        setInvitedParticipants([...invitedParticipants, email]);
-      } else {
-        console.error('Failed to send invitation email');
-      }
-
-      // Navigate to the chatbox page after generating link and sending email
-      navigate(`/chatbox/${token}`, {
-        state: {
-          team1,
-          team2,
-          topic,
-          participants,
-          generatedLink, // Including the generated link in state
-        },
-      });
-
-    } catch (error) {
-      console.error('Error sending invitation email:', error);
+    // Handle response from server
+    if (response.ok) {
+      console.log('Invitation email sent successfully.'); // Log successful email sending
+      // Update invited participants list if email sending successful
+      setInvitedParticipants([...invitedParticipants, email]);
+    } else {
+      console.error('Failed to send invitation email'); // Log failed email sending
     }
-  };
+
+    // Navigate to the chatbox page after generating link and sending email
+    navigate(`/chatbox/${token}`, {
+      state: {
+        team1,
+        team2,
+        topic,
+        participants,
+        uniqueID: token, // Pass unique ID to chatbox page
+      },
+    });
+
+  } catch (error) {
+    console.error('Error sending invitation email:', error); // Log error sending email
+  }
+};
+
 
   return (
     <div className="container mt-5">

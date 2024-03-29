@@ -13,6 +13,9 @@ import FixMatchPage from './components/Fixmatch';
 import AddDebateTopic from './components/AddDebateTopic';
 import ChatRoomPage from './components/chatroom';
 import ChatBox from './components/ChatBox';
+import SeeTopic from './components/Seetopic';
+import CheckNamePage from './components/CheckNamePage';
+
 
 const App = () => {
   return (
@@ -32,6 +35,8 @@ const App = () => {
         <Route path="/chatroom" element={<ChatRoomPage/>} />
         <Route path="/chatbox" element={<ChatBox/>} />
         <Route path="/chatbox/:token" element={<ChatBox/>} />
+        <Route path="/topic" element={<SeeTopic/>} />
+        <Route path="/verify" element={<CheckNamePage/>} />
         
 
       </Routes>
