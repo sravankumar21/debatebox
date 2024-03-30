@@ -16,10 +16,25 @@ const ChatBox = () => {
   const [debates, setDebates] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [roomInfo, setRoomInfo] = useState({});
+
 
   useEffect(() => {
     const newSocket = io('http://localhost:3333');
     setSocket(newSocket);
+    const fetchData = async () => {
+      try {
+        const roomId = document.location.pathname.split('/').pop();
+        const response = await fetch(`http://localhost:3333/create/room/${roomId}`);
+        const data = await response.json();
+        setRoomInfo(data);
+        console.log(data);
+      } catch (error) {
+        // console.error('Error fetching debates:', error);
+      }
+    }
+    fetchData();
+
 
     return () => {
       newSocket.close();
@@ -130,8 +145,10 @@ const ChatBox = () => {
         <div className="col-md-8 h-100">
           <div className="card h-100">
             <div className="card-header">
-              {team1 && team2 && <h2 className="text-center">{team1} vs {team2}</h2>}
-              {topic && <h5 className="text-center">Topic: {topic}</h5>}
+              {roomInfo.team1 && roomInfo.team2 && <h2 className="text-center">{roomInfo.team1} vs {roomInfo.team2}</h2>}
+              {roomInfo.topic && <h5 className="text-center">Topic: {roomInfo.topic}</h5>}
+              {/* {team1 && team2 && <h2 className="text-center">{team1} vs {team2}</h2>}
+              {topic && <h5 className="text-center">Topic: {topic}</h5>} */}
             </div>
             <div className="card-body message-container overflow-auto" style={{ minHeight: '70vh' }}>
               <div className="accordion" id="adminMessageAccordion">
