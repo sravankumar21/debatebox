@@ -9,14 +9,14 @@ const ChatRoomPage = () => {
   const { team1, team2, topic, participants } = state || {};
 
   // Function to handle inviting a participant
-const handleInvite = async (email) => {
+const handleInvite = async (email, name) => {
   try {
     console.log('Inviting participant with email:', email); // Log invited participant's email
     
     // Generate chatbox link if not already generated
     const token = Math.random().toString(36).substr(2, 10);
     console.log('Generated unique ID:', token); // Log generated unique ID
-    const generatedLink = `http://localhost:3000/chatbox/${token}`;
+    const generatedLink = `http://localhost:3000/chatbox/${name}/${token}`;
 
     // Send invitation email
     const response = await fetch('http://localhost:3333/invite/invite', {
@@ -37,13 +37,14 @@ const handleInvite = async (email) => {
     }
 
     // Navigate to the chatbox page after generating link and sending email
-    navigate(`/chatbox/${token}`, {
+    navigate(`/chatbox/admin/${token}`, {
       state: {
         team1,
         team2,
         topic,
         participants,
-        uniqueID: token, // Pass unique ID to chatbox page
+        uniqueID: token, // Pass unique ID to chatbox page,
+        isAdmin: true, // Set isAdmin to true
       },
     });
 
@@ -73,7 +74,7 @@ const handleInvite = async (email) => {
                         Invited
                       </button>
                     ) : (
-                      <button className="btn btn-primary" onClick={() => handleInvite(participant.email)}>
+                      <button className="btn btn-primary" onClick={() => handleInvite(participant.email, participant.name)}>
                         Invite
                       </button>
                     )}

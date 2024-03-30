@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams, useHref } from 'react-router-dom';
 import SeeTopic from '../components/Seetopic';
 import io from 'socket.io-client';
+// import { useHref } from 'react-router-dom';
 
 const ChatBox = () => {
   const location = useLocation();
   const { state } = location || {};
-  const { team1, team2, topic, participants } = state || {}; // Destructure participants from state
+  const { team1, team2, topic, participants, isAdmin } = state || {}; // Destructure participants from state
 
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -14,18 +15,20 @@ const ChatBox = () => {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [debates, setDebates] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [roomInfo, setRoomInfo] = useState({});
-
+  const { name, token } = useParams();
+  const history = useHref();
+  // console.log(name, token);
 
   useEffect(() => {
     const newSocket = io('http://localhost:3333');
     setSocket(newSocket);
     const fetchData = async () => {
       try {
-        const roomId = document.location.pathname.split('/').pop();
-        const response = await fetch(`http://localhost:3333/create/room/${roomId}`);
+        // const roomId = document.location.pathname.split('/').pop();
+        const response = await fetch(`http://localhost:3333/create/room/${token}`);
         const data = await response.json();
         setRoomInfo(data);
         console.log(data);
@@ -74,7 +77,7 @@ const ChatBox = () => {
 
   const sendMessage = () => {
     if (!socket || !messageInput.trim()) return;
-    socket.emit('chat message', messageInput);
+    socket.emit('chat message', name+": "+messageInput);
     setMessageInput('');
   };
 
@@ -175,8 +178,8 @@ const ChatBox = () => {
                       <div>
                         <strong>Participants</strong>
                         <ul>
-                          {participants && participants.map((participant, index) => (
-                            <li key={index}>{participant.name}</li>
+                          {roomInfo.participants && roomInfo.participants.map((participant, index) => (
+                            <li key={index}>{participant}</li>
                           ))}
                         </ul>
                       </div>
@@ -198,7 +201,10 @@ const ChatBox = () => {
               />
               <button onClick={sendMessage} className="btn btn-primary send-btn mx-4">Send</button>
             </div>
-            <button onClick={saveChat} className="btn btn-success ms-auto mt-2" style={{ display: 'block', margin: 'auto', paddingTop: '5px' }}>Save</button>
+            {isAdmin && (
+              <button onClick={saveChat} className="btn btn-success ms-auto mt-2" style={{ display: 'block', margin: 'auto', paddingTop: '5px' }}>Save</button>
+            )}
+            {/* // <button onClick={saveChat} className="btn btn-success ms-auto mt-2" style={{ display: 'block', margin: 'auto', paddingTop: '5px' }}>Save</button> */}
           </div>
         </div>
       </div>

@@ -6,11 +6,11 @@ const DebateChatSchema = new mongoose.Schema({
   team2: { type: String, required: true },
   participants: [String], // Array of participant names
   messages: [
-    {
-      sender: { type: String, required: true },
-      text: { type: String, required: true },
-      timestamp: { type: Date, default: Date.now }
-    }
+    
+      // sender: { type: String, required: true },
+      { type: String, required: true },
+      // timestamp: { type: Date, default: Date.now }
+    
   ]
 });
 
