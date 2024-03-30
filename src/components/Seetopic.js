@@ -33,11 +33,13 @@ const SeeTopic = ({ isOpen, handleClose, topicId }) => {
               <h6>Team 2: {topicData.team2}</h6>
               <h6>Participants: {topicData.participants.join(', ')}</h6>
               <h6>Messages:</h6>
+              <div>
               {topicData.messages.map((message) => (
-                <div key={message._id}>
-                  <p><strong>{message.sender}:</strong> {message.text}</p>
-                </div>
+                
+                  <p className='message-idk'>{message}</p>
+                
               ))}
+              </div>
             </div>
           )}
         </div>

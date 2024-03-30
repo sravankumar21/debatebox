@@ -34,9 +34,11 @@ const App = () => {
         <Route path="/addtopic" element={<AddDebateTopic/>} />
         <Route path="/chatroom" element={<ChatRoomPage/>} />
         <Route path="/chatbox" element={<ChatBox/>} />
-        <Route path="/chatbox/:token" element={<ChatBox/>} />
+        {/* <Route path="/chatbox/:token" element={<ChatBox/>} /> */}
+        <Route path="/chatbox/:name/:token" element={<ChatBox/>} />
+
         <Route path="/topic" element={<SeeTopic/>} />
-        <Route path="/verify" element={<CheckNamePage/>} />
+        <Route path="/verify/:roomId" element={<CheckNamePage/>} />
         
 
       </Routes>

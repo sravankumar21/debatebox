@@ -43,9 +43,10 @@ export const sendInvitationEmail = async (req, res) => {
       topic: topic,
       team1: team1,
       team2: team2,
-      participants: participants,
+      participants: participants.map(participant => participant.name),
       uniqueLink: chatboxLink.split('/')[chatboxLink.split('/').length - 1],
     });
+    // console.log(participants.map(participant => participant.name))
     await roomInfo.save();
     res.json({ message: 'Invitation email sent successfully' });
   } catch (error) {
