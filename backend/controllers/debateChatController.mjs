@@ -1,4 +1,5 @@
 import DebateChat from '../models/DebateChatModel.mjs';
+import DebateRoom from '../models/DebateRoomModel.mjs';
 
 // Create new debate chat
 export const createDebateChat = async (req, res) => {
@@ -40,3 +41,14 @@ export const getDebateChatById = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const getRoomDetails = async (req, res) => {
+  try {
+    const { roomId } = "cdd45xlb0l" //req.params.roomId;
+    const debate = await DebateRoom.findOne({ room: roomId });
+    res.json(debate);
+  } catch (error) {
+    console.error('Error fetching room details:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}

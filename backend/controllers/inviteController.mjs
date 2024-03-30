@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import DebateRoom from '../models/DebateRoomModel.mjs';
 
 // Function to send invitation email
 export const sendInvitationEmail = async (req, res) => {
@@ -38,6 +39,14 @@ export const sendInvitationEmail = async (req, res) => {
     });
 
     console.log('Invitation email sent:', info.messageId);
+    let roomInfo = new DebateRoom({
+      topic: topic,
+      team1: team1,
+      team2: team2,
+      participants: participants,
+      uniqueLink: chatboxLink.split('/')[chatboxLink.split('/').length - 1],
+    });
+    await roomInfo.save();
     res.json({ message: 'Invitation email sent successfully' });
   } catch (error) {
     console.error('Error sending invitation email:', error);
