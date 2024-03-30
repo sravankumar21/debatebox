@@ -1,5 +1,5 @@
 import express from 'express';
-import { createDebateChat, getAllDebateChats, getDebateChatById } from '../controllers/debateChatController.mjs';
+import { createDebateChat, getAllDebateChats, getDebateChatById, getRoomDetails } from '../controllers/debateChatController.mjs';
 
 const router = express.Router();
 
@@ -11,5 +11,7 @@ router.get('/all', getAllDebateChats);
 
 // Get debate chat by ID
 router.get('/:id', getDebateChatById);
+
+router.get('/room/:roomId', getRoomDetails);
 
 export default router;

@@ -44,7 +44,7 @@ export const getDebateChatById = async (req, res) => {
 
 export const getRoomDetails = async (req, res) => {
   try {
-    const { roomId } = "cdd45xlb0l" //req.params.roomId;
+    const { roomId } = req.params.roomId;
     const debate = await DebateRoom.findOne({ room: roomId });
     res.json(debate);
   } catch (error) {
