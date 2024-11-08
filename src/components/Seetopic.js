@@ -6,7 +6,7 @@ const SeeTopic = ({ isOpen, handleClose, topicId }) => {
   useEffect(() => {
     const fetchTopicData = async () => {
       try {
-        const response = await fetch(`http://localhost:3333/create/${topicId}`);
+        const response = await fetch(`https://debatebox-api.rka.li/create/${topicId}`);
         const data = await response.json();
         setTopicData(data);
       } catch (error) {

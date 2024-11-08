@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchTeamsCount = async () => {
       try {
-        const response = await fetch('http://localhost:3333/addteams/teams'); // Replace URL with your backend API endpoint
+        const response = await fetch('https://debatebox-api.rka.li/addteams/teams'); // Replace URL with your backend API endpoint
         const data = await response.json();
 
         // Calculate team counts

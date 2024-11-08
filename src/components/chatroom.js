@@ -19,7 +19,7 @@ const handleInvite = async (email, name) => {
     const generatedLink = `http://localhost:3000/chatbox/${name}/${token}`;
 
     // Send invitation email
-    const response = await fetch('http://localhost:3333/invite/invite', {
+    const response = await fetch('https://debatebox-api.rka.li/invite/invite', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

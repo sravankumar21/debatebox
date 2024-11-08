@@ -23,12 +23,12 @@ const ChatBox = () => {
   // console.log(name, token);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:3333');
+    const newSocket = io('https://debatebox-api.rka.li');
     setSocket(newSocket);
     const fetchData = async () => {
       try {
         // const roomId = document.location.pathname.split('/').pop();
-        const response = await fetch(`http://localhost:3333/create/room/${token}`);
+        const response = await fetch(`https://debatebox-api.rka.li/create/room/${token}`);
         const data = await response.json();
         setRoomInfo(data);
         console.log(data);
@@ -64,7 +64,7 @@ const ChatBox = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3333/create/all');
+        const response = await fetch('https://debatebox-api.rka.li/create/all');
         const data = await response.json();
         setDebates(data);
       } catch (error) {
@@ -95,7 +95,7 @@ const ChatBox = () => {
     if (!isAdmin) return;
 
     try {
-      const response = await fetch('http://localhost:3333/create/create', {
+      const response = await fetch('https://debatebox-api.rka.li/create/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ const ChatBox = () => {
         throw new Error('Failed to save chat');
       }
 
-      const updatedResponse = await fetch('http://localhost:3333/create/all');
+      const updatedResponse = await fetch('https://debatebox-api.rka.li/create/all');
       const updatedData = await updatedResponse.json();
       setDebates(updatedData);
     } catch (error) {

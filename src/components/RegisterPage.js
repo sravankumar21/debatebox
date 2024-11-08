@@ -19,7 +19,7 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3333/admins/register', formData);
+      const response = await axios.post('https://debatebox-api.rka.li/admins/register', formData);
 
       // Registration successful, redirect to login page
       console.log('Registration successful:', response.data);

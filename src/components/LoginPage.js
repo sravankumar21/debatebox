@@ -14,7 +14,7 @@ const LoginPage = () => {
     e.preventDefault();
   
     try {
-      const response = await axios.post('http://localhost:3333/admins/login', formData);
+      const response = await axios.post('https://debatebox-api.rka.li/admins/login', formData);
   
       // Log response data for debugging
       console.log('Response:', response.data);

@@ -9,7 +9,7 @@ const CheckNamePage = () => {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await axios.get('http://localhost:3333/addteams/teams');
+        const response = await axios.get('https://debatebox-api.rka.li/addteams/teams');
         const teamsData = response.data.teams;
         const participantsNames = teamsData.reduce((acc, team) => {
           team.participants.forEach((participant) => {

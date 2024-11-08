@@ -9,7 +9,7 @@ const AddDebateTopic = () => {
     event.preventDefault();
     try {
       // Make an HTTP POST request to the backend API
-      const response = await axios.post('http://localhost:3333/addtopic/debateTopics', {
+      const response = await axios.post('https://debatebox-api.rka.li/addtopic/debateTopics', {
         topic,
         credits
       });

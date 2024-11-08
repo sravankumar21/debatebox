@@ -9,7 +9,7 @@ const ManageTeamsPage = () => {
     // Function to fetch all teams from the backend
     const fetchTeams = async () => {
       try {
-        const response = await fetch('http://localhost:3333/addteams/teams');
+        const response = await fetch('https://debatebox-api.rka.li/addteams/teams');
         const data = await response.json();
         setTeams(data.teams);
         setFilteredTeams(data.teams);
@@ -24,7 +24,7 @@ const ManageTeamsPage = () => {
   const handleDelete = async (teamId) => {
     try {
       // Delete the team from the backend
-      await fetch(`http://localhost:3333/addteams/teams/${teamId}`, {
+      await fetch(`https://debatebox-api.rka.li/addteams/teams/${teamId}`, {
         method: 'DELETE',
       });
 

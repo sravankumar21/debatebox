@@ -10,7 +10,7 @@ const FixMatchPage = () => {
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await fetch('http://localhost:3333/addteams/teams');
+        const response = await fetch('https://debatebox-api.rka.li/addteams/teams');
         const data = await response.json();
         setTeams(data.teams);
       } catch (error) {

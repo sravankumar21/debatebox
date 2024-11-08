@@ -16,7 +16,7 @@ const Teampage = () => {
 
   const fetchTopics = async () => {
     try {
-      const response = await axios.get('http://localhost:3333/addtopic/debateTopics');
+      const response = await axios.get('https://debatebox-api.rka.li/addtopic/debateTopics');
       setTopics(response.data);
     } catch (error) {
       console.error('Error fetching topics:', error);
@@ -25,7 +25,7 @@ const Teampage = () => {
 
   const fetchUniqueTeamNames = async () => {
     try {
-      const response = await axios.get('http://localhost:3333/addteams/uniqueTeamNames');
+      const response = await axios.get('https://debatebox-api.rka.li/addteams/uniqueTeamNames');
       setUniqueTeamNames(response.data);
     } catch (error) {
       console.error('Error fetching unique team names:', error);
@@ -73,7 +73,7 @@ const Teampage = () => {
       } else {
         try {
           // Make a POST request to the backend API to create a team
-          await axios.post('http://localhost:3333/addteams/teams', { participants, selectedTopic, teamName });
+          await axios.post('https://debatebox-api.rka.li/addteams/teams', { participants, selectedTopic, teamName });
           
           // Display success message
           window.alert('Team created successfully.');
